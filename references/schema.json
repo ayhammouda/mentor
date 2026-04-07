@@ -1,0 +1,211 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "MentorLearningPath",
+  "description": "Machine-readable output contract for the Mentor skill. Use this schema when the user explicitly requests structured JSON output or when the output feeds a downstream system. The default output format is markdown.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "topic",
+    "topic_scope",
+    "assumptions",
+    "why_this_topic_is_tricky",
+    "core_path",
+    "exploration_branches",
+    "checkpoints",
+    "avoid_for_now",
+    "next_topics",
+    "navigators_note"
+  ],
+  "properties": {
+    "topic": {
+      "type": "string"
+    },
+    "topic_scope": {
+      "type": "string",
+      "enum": [
+        "broad",
+        "narrow"
+      ]
+    },
+    "assumptions": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "level",
+        "goal",
+        "time_budget",
+        "style"
+      ],
+      "properties": {
+        "level": {
+          "type": "string"
+        },
+        "goal": {
+          "type": "string"
+        },
+        "time_budget": {
+          "type": "string"
+        },
+        "style": {
+          "type": "string"
+        }
+      }
+    },
+    "why_this_topic_is_tricky": {
+      "type": "string"
+    },
+    "core_path": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "section_name",
+          "resources"
+        ],
+        "properties": {
+          "section_name": {
+            "type": "string"
+          },
+          "resources": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "source_tier",
+                "mode",
+                "title",
+                "url",
+                "why_here_now",
+                "estimated_effort",
+                "optional"
+              ],
+              "properties": {
+                "source_tier": {
+                  "type": "string",
+                  "enum": [
+                    "Official Docs",
+                    "Official Tutorial",
+                    "Official Reference",
+                    "Official Training",
+                    "Vendor Architecture Guide",
+                    "Vendor Blog",
+                    "Engineering Blog",
+                    "Maintainer Explainer",
+                    "Official Sample Repo",
+                    "Community Guide"
+                  ]
+                },
+                "mode": {
+                  "type": "string",
+                  "enum": [
+                    "Read now",
+                    "Skim",
+                    "Hands-on",
+                    "Bookmark as reference"
+                  ]
+                },
+                "title": {
+                  "type": "string"
+                },
+                "url": {
+                  "type": "string",
+                  "format": "uri"
+                },
+                "why_here_now": {
+                  "type": "string"
+                },
+                "estimated_effort": {
+                  "type": "string"
+                },
+                "optional": {
+                  "type": "boolean"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "exploration_branches": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "name",
+          "purpose",
+          "resources"
+        ],
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "purpose": {
+            "type": "string"
+          },
+          "resources": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "source_tier",
+                "mode",
+                "title",
+                "url",
+                "why_here_now"
+              ],
+              "properties": {
+                "source_tier": {
+                  "type": "string"
+                },
+                "mode": {
+                  "type": "string"
+                },
+                "title": {
+                  "type": "string"
+                },
+                "url": {
+                  "type": "string",
+                  "format": "uri"
+                },
+                "why_here_now": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "checkpoints": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "string"
+      }
+    },
+    "avoid_for_now": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "string"
+      }
+    },
+    "next_topics": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "string"
+      }
+    },
+    "navigators_note": {
+      "type": "string"
+    }
+  }
+}

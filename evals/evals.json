@@ -1,0 +1,125 @@
+{
+  "skill_name": "mentor",
+  "version": "v1",
+  "evals": [
+    {
+      "id": 1,
+      "category": "broad-topic",
+      "prompt": "I want to learn Rust. I've been writing Go for 3 years so I'm not new to systems programming, but I've never touched Rust.",
+      "expected_output": "A structured broad-topic learning path for Rust that acknowledges the user's Go background, emphasizes ownership and borrowing as the main mental-model shift, avoids absolute beginner filler, and uses mostly official Rust sources.",
+      "assertions": [
+        {"text": "Uses the 4-phase broad-topic structure", "type": "structural"},
+        {"text": "Core path has between 6 and 12 resources", "type": "structural"},
+        {"text": "No homepage-only links (e.g., rust-lang.org without a path)", "type": "source_quality"},
+        {"text": "Includes at least one resource with mode Skim or Bookmark as reference", "type": "mode_variety"},
+        {"text": "Mentions ownership or borrowing in the Why This Topic Is Tricky section", "type": "content"},
+        {"text": "Does not ask clarifying questions (user gave clear context)", "type": "clarification"},
+        {"text": "Assumptions section reflects the user's Go background", "type": "personalization"},
+        {"text": "Includes Checkpoints, Avoid for Now, and Next Topics sections", "type": "structural"},
+        {"text": "No resource appears in both core path and exploration branches", "type": "dedup"}
+      ]
+    },
+    {
+      "id": 2,
+      "category": "broad-topic",
+      "prompt": "learning path for Google Cloud Run",
+      "expected_output": "A structured broad-topic learning path for Google Cloud Run using official Google Cloud documentation first, distinguishing Cloud Run from Cloud Functions and GKE, and including deployment plus production usage patterns.",
+      "assertions": [
+        {"text": "Uses the 4-phase broad-topic structure", "type": "structural"},
+        {"text": "Majority of core path resources are from Tier 1 (Official Docs)", "type": "source_quality"},
+        {"text": "No resource appears in both core path and exploration branches", "type": "dedup"},
+        {"text": "Includes effort estimates on every core path resource", "type": "structural"},
+        {"text": "Why This Topic Is Tricky mentions confusion with Cloud Functions or GKE", "type": "content"}
+      ]
+    },
+    {
+      "id": 3,
+      "category": "role-specific",
+      "prompt": "I need to get up to speed on Karate DSL for API testing at work. We use it with Maven and run tests in CI pipelines.",
+      "expected_output": "A learning path for Karate DSL that reflects Maven and CI usage, uses the official Karate documentation and repository, and chooses resources relevant to API testing at work instead of generic tutorial content.",
+      "assertions": [
+        {"text": "References the official Karate GitHub repository", "type": "source_quality"},
+        {"text": "Acknowledges that official docs are GitHub-README-based if it uses non-Tier-1 sources", "type": "weak_docs_handling"},
+        {"text": "Does not ask clarifying questions (user gave clear context)", "type": "clarification"},
+        {"text": "Assumptions reflect Maven and CI context", "type": "personalization"}
+      ]
+    },
+    {
+      "id": 4,
+      "category": "narrow-topic",
+      "prompt": "Give me the best learning path for Terraform modules.",
+      "expected_output": "A narrow-topic path that does not force all four phases, quickly explains where modules fit in Terraform, uses official HashiCorp documentation first, and distinguishes read-now material from reference material.",
+      "assertions": [
+        {"text": "Uses compressed narrow-topic structure, not the full 4-phase model", "type": "structural"},
+        {"text": "Core path has between 4 and 7 resources", "type": "structural"},
+        {"text": "Includes at least one resource with mode Bookmark as reference", "type": "mode_variety"},
+        {"text": "No padding phases with zero or one-resource sections that add no value", "type": "quality"},
+        {"text": "No resource appears in both core path and exploration branches", "type": "dedup"}
+      ]
+    },
+    {
+      "id": 5,
+      "category": "fast-moving-topic-with-clarification",
+      "prompt": "I want to learn React Server Components without wasting time on outdated articles.",
+      "expected_output": "A path that asks one clarification question about framework context (Next.js, Remix, or raw React), applies freshness and versioning rules, prefers current official docs, and avoids outdated community content.",
+      "assertions": [
+        {"text": "Asks exactly one clarification question about framework context", "type": "clarification"},
+        {"text": "Avoid for Now section warns against outdated pre-stable content", "type": "content"},
+        {"text": "No resources older than 2023 unless they are still canonical", "type": "freshness"},
+        {"text": "Includes Why This Topic Is Tricky section mentioning documentation lag or fast-moving ecosystem", "type": "content"}
+      ]
+    },
+    {
+      "id": 6,
+      "category": "time-constrained",
+      "prompt": "Teach me Cloud Run in 2 hours. I'm already a platform engineer.",
+      "expected_output": "A compressed path optimized for a short time budget, assumes strong engineering background, avoids beginner filler, and keeps the core path tight.",
+      "assertions": [
+        {"text": "Core path has between 4 and 6 resources", "type": "structural"},
+        {"text": "No Phase 4 (Go Deeper) section, or it is entirely marked optional", "type": "time_constraint"},
+        {"text": "Assumptions section reflects 2-hour time budget and platform engineer level", "type": "personalization"},
+        {"text": "Exploration branches are reduced or absent", "type": "time_constraint"},
+        {"text": "Does not ask clarifying questions (user gave clear context)", "type": "clarification"},
+        {"text": "No resource appears in both core path and exploration branches", "type": "dedup"}
+      ]
+    },
+    {
+      "id": 7,
+      "category": "narrow-topic",
+      "prompt": "What's the best way to learn GitLab CI caching?",
+      "expected_output": "A narrow-topic learning path with compressed sections, focused on one workflow area, using exact GitLab documentation pages and avoiding phase padding.",
+      "assertions": [
+        {"text": "Uses compressed narrow-topic structure", "type": "structural"},
+        {"text": "Core path has between 4 and 7 resources", "type": "structural"},
+        {"text": "Links to specific GitLab CI caching documentation pages, not the GitLab CI homepage", "type": "source_quality"},
+        {"text": "Does not force empty phases", "type": "quality"}
+      ]
+    },
+    {
+      "id": 8,
+      "category": "weak-official-docs",
+      "prompt": "I want a learning path for Astro (the web framework). I'm a React developer looking to build content-heavy sites.",
+      "expected_output": "A path that uses official Astro docs where available but bridges gaps with maintainer blog posts or community content where official docs are thin, with explicit justification for non-Tier-1 sources.",
+      "assertions": [
+        {"text": "Uses official Astro documentation where available", "type": "source_quality"},
+        {"text": "Includes at least one non-Tier-1 source with explicit justification for why it earned a place", "type": "weak_docs_handling"},
+        {"text": "Does not pretend all official docs are complete if they are not", "type": "content"},
+        {"text": "Assumptions reflect React background", "type": "personalization"},
+        {"text": "Does not ask clarifying questions (user gave clear context)", "type": "clarification"}
+      ]
+    },
+    {
+      "id": 9,
+      "category": "json-output",
+      "prompt": "Give me a learning path for Docker in JSON format. I'm a backend developer.",
+      "expected_output": "A valid JSON object conforming to references/schema.json with all required fields populated, using the broad-topic structure for Docker.",
+      "assertions": [
+        {"text": "Output is valid JSON, not markdown", "type": "structural"},
+        {"text": "Includes all required top-level fields: topic, topic_scope, assumptions, why_this_topic_is_tricky, core_path, exploration_branches, checkpoints, avoid_for_now, next_topics, navigators_note", "type": "structural"},
+        {"text": "Every core path resource includes source_tier, mode, title, url, why_here_now, estimated_effort, and optional fields", "type": "structural"},
+        {"text": "source_tier values match the enum defined in schema.json", "type": "schema_compliance"},
+        {"text": "mode values match the enum defined in schema.json", "type": "schema_compliance"}
+      ]
+    }
+  ]
+}
