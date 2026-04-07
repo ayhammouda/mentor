@@ -93,11 +93,40 @@ Build the shortest credible path to competence from trustworthy sources, while p
 
 This skill is designed for **Claude.ai** and **Claude Code**. It uses the Claude skill format (`SKILL.md` with YAML frontmatter) and relies on Claude's web search capability to verify resource URLs and freshness.
 
-## Getting Started
+## Installation
 
-1. Copy the `mentor/` directory into your Claude skills location (e.g., `~/.claude/skills/mentor/`)
-2. Ask Claude to learn something: *"I want to learn Kubernetes"*, *"learning path for Terraform modules"*, *"teach me Rust, I'm a Go developer"*
-3. Mentor activates and generates a structured learning path
+### Option 1: Download the `.skill` file (recommended)
+
+Download [`mentor.skill`](https://github.com/ayhammouda/mentor/releases/latest) from the latest release, then:
+
+| Platform | Command / Action |
+|---|---|
+| **Claude Code** | `claude skill add mentor.skill` |
+| **Claude.ai** | Open a Project → Settings → Skills → Upload `mentor.skill` |
+
+### Option 2: Clone the repository
+
+```bash
+git clone https://github.com/ayhammouda/mentor.git ~/.claude/skills/mentor
+```
+
+### Option 3: Manual copy
+
+Copy the `mentor/` directory into your Claude skills location (e.g., `~/.claude/skills/mentor/`).
+
+For more details on installing and managing skills, see the official documentation:
+- [Claude Code Skills](https://docs.anthropic.com/en/docs/claude-code/skills)
+- [Claude.ai Agent Skills](https://docs.anthropic.com/en/docs/agents-and-tools/agent-skills/overview)
+
+## Usage
+
+Ask Claude to learn something:
+
+- *"I want to learn Kubernetes"*
+- *"learning path for Terraform modules"*
+- *"teach me Rust, I'm a Go developer"*
+
+Mentor activates automatically and generates a structured learning path.
 
 For JSON output, ask explicitly: *"Give me a learning path for Docker in JSON format"*
 
