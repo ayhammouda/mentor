@@ -1,8 +1,34 @@
 # Mentor
 
+[![Release](https://img.shields.io/github/v/release/ayhammouda/mentor)](https://github.com/ayhammouda/mentor/releases/latest)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+[![Claude Code](https://img.shields.io/badge/Claude%20Code-compatible-blueviolet)](https://docs.anthropic.com/en/docs/claude-code/skills)
+[![Claude.ai](https://img.shields.io/badge/Claude.ai-compatible-7c3aed)](https://docs.anthropic.com/en/docs/agents-and-tools/agent-skills/overview)
+[![Official-first](https://img.shields.io/badge/sources-official--first-success)](SKILL.md)
 
-A Claude skill that generates structured, official-first learning paths for technical topics.
+A Claude skill for generating structured, official-first, dependency-ordered learning paths for technical topics.
+
+## Why this is different
+
+Most learning-roadmap content online is one of three things:
+
+- generic link dumps
+- community-heavy resource lists with weak sequencing
+- broad study plans that ignore the learner's actual goal
+
+Mentor is designed to be tighter than that:
+
+- **official-first** when canonical docs exist
+- **dependency-ordered** so the path builds in the right sequence
+- **practical** about what to read now, skim, practice, or bookmark
+- **adaptive** to topic scope, learner background, and time budget
+- **skill-native** for Claude, instead of being a blog post pretending to be a tool
+
+## Proof at a glance
+
+- **4 example outputs** covering broad and narrow technical topics
+- **9 eval cases** with machine-checkable assertions
+- **release-ready `mentor.skill` asset** for direct installation
 
 ## What It Does
 
@@ -88,6 +114,8 @@ flowchart LR
 ## Design Principle
 
 Build the shortest credible path to competence from trustworthy sources, while preserving room for exploration.
+
+In practice, that means the skill should feel like a strong staff engineer or teacher handing you the right sequence, not a search engine dropping 20 tabs in your lap.
 
 ## Target Runtime
 
