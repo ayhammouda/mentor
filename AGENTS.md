@@ -1,10 +1,10 @@
-# CLAUDE.md
+# AGENTS.md
 
-This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
+This file provides guidance to Codex (Codex.ai/code) when working with code in this repository.
 
 ## What This Is
 
-Mentor is a Claude skill (`SKILL.md` with YAML frontmatter) that generates docs-first mentorship compasses for technical topics. It runs on Claude.ai and Claude Code, and relies on current source lookup to verify resource URLs and freshness.
+Mentor is a Codex skill (`SKILL.md` with YAML frontmatter) that generates docs-first mentorship compasses for technical topics. It runs on Codex.ai and Codex, and relies on current source lookup to verify resource URLs and freshness.
 
 The intended behavior is direction-setting, not tutorial generation:
 - read this documentation first

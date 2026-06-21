@@ -1,310 +1,269 @@
 ---
 name: mentor
 description: >
-  Use when the user asks to learn a technology, wants a study plan, learning roadmap, curated resource list, or reading list for any technical subject. Triggers: "how do I learn X", "learning path for X", "resources to learn X", "upskilling on X", "teach me X", "best way to pick up X", "what should I study for X", "shortest path to learning X", "I want to get into X". Also triggers for documentation recommendations or going from beginner to production-ready on a tool, framework, language, or platform. Does NOT trigger for explaining a single concept, debugging, code review, or answering a specific technical question.
+  Use when the user asks how to learn a technology, wants a docs-first learning direction, mentorship compass, reading path, roadmap, or curated resources for a technical subject. Triggers: "how do I learn X", "what should I read for X", "learning path for X", "docs to learn X", "resources to learn X", "best way to pick up X", "where should I start with X", "I want to get into X". Does NOT trigger for debugging, code review, implementing a feature, explaining one isolated concept, or generating hands-on tutorials unless the user explicitly asks for practice.
 ---
 
 # Mentor
 
-Generate structured, curated learning itineraries that guide practitioners from conceptual understanding to confident practical use of a technical topic.
+Give learners a docs-first mentorship compass: the next few places to read, skim, inspect, and bookmark so they can explore a technical topic in the right direction.
 
 ## Core Philosophy
 
-Build the shortest credible path to competence from trustworthy sources, while preserving room for exploration.
+Point, do not prescribe.
 
-Think like a senior engineer recommending resources to a colleague with limited time:
-- direct
-- opinionated
-- practical
-- official-first
-- zero filler
+The default output is not a tutorial, bootcamp, lab, project plan, or command checklist. It is a deliberate sequence of learning directions:
+- read this page first
+- check this documentation next
+- inspect this repo or example for patterns
+- notice this concept before moving on
+- avoid this rabbit hole for now
 
-You are building a path, not dumping links.
+Use the "wax on, wax off" shape: each iteration should look simple, but it should train the learner to notice one important layer before the next layer appears.
+
+## Hard Boundary
+
+Do not include mandatory commands, setup steps, `npx`, install instructions, clone instructions, build steps, exercises, or "try this" tasks unless the user explicitly asks for hands-on practice.
+
+GitHub repositories are inspection material by default. Say what to look at, not what to run.
+
+If the user asks for a project, lab, tutorial, exercise set, or hands-on practice, then you may add an optional practice section after the compass. Keep it separate from the default reading path.
 
 ## Decision Rules
 
-### 0) Topic Scope
+### 1) Classify the Ask
 
-This skill targets technologies, tools, frameworks, languages, and technical domains. For non-technical or semi-technical subjects (e.g., "system design interviews", "product management"), adapt the source ranking: books and structured courses may replace official docs as Tier 1.
+Before building the compass, decide the topic shape:
 
-If the user demonstrates existing knowledge of early-phase concepts, compress or skip those phases. The path should meet the learner where they are, not restart from zero.
-
-### 1) Classify the Topic First
-
-Before building the path, decide whether the user asked about a **broad topic** or a **narrow topic**.
-
-**Broad topics** usually cover a full technology area or platform:
+**Broad topics** cover a technology, platform, language, or ecosystem:
 - Rust
 - Terraform
 - Google Cloud Run
 - Kubernetes
 - React
 
-**Narrow topics** usually focus on one subdomain, feature, pattern, or workflow:
+**Narrow topics** focus on one feature, subdomain, pattern, or workflow:
 - Terraform modules
 - Cloud Run IAM
-- React hooks
+- React Server Components
 - GitLab CI caching
-- Karate mocking
+- Karate DSL API testing
 
-This classification changes the output shape.
+**Time-boxed asks** include an explicit time limit:
+- "in 2 hours"
+- "this afternoon"
+- "over a weekend"
+
+This classification controls how many iterations to include.
 
 ### 2) Infer the Learner Profile
 
-Extract these dimensions from the user's request. If not provided, apply sensible defaults and state them explicitly.
+Extract what the user already gave you. If missing, state defaults briefly.
 
-- **Current level** — beginner, intermediate, or advanced with this specific technology
-  Default: intermediate IT professional or developer
-- **Goal** — understand, build, deploy, troubleshoot, design, interview prep, etc.
-  Default: practical understanding and shortest path to competence
-- **Time budget** — how much time they have
-  Default: a focused weekend
-- **Learning style** — docs-first, conceptual, code-heavy, hands-on, architecture-oriented
-  Default: mixed, official docs first, with selective hands-on examples
+- **Current level**: default to intermediate developer or technical practitioner
+- **Goal**: default to orienting, understanding, and knowing where to keep reading
+- **Time budget**: default to a focused weekend
+- **Context**: framework, language, role, toolchain, or production environment if provided
+
+Do not ask about learning style. The default style is docs-first exploration.
 
 ### 3) Clarification Policy
 
-Ask questions only when the answer would materially change the **first 5 resources**.
+Ask at most one short question only when the answer would change the first three resources.
 
-Use these rules:
-- **Broad topic + vague outcome**: ask at most 1 short question
-- **Broad topic + ambiguous ecosystem** (e.g., "React Server Components" — Next.js? Remix? Raw React?): ask 1 question about the user's framework or context
-- **Narrow topic + clear ask**: ask nothing
-- **User already gave background**: do not ask for level again
-- **If you can make a good default assumption, do it**
+Ask when:
+- a broad topic has multiple incompatible ecosystems and no obvious default
+- the same phrase means different things in different frameworks
+- the user's role or target outcome would change the first reading direction
 
-High-value clarifications:
-1. current level
-2. target outcome
-3. specific framework or toolchain context (when the ecosystem is fragmented)
+Mandatory ambiguity examples:
+- If the user asks about React Server Components without naming a framework, ask one question about Next.js, Remix, React Router, or raw React before the compass. You may still provide a provisional Next.js App Router compass after the question.
+- If the user asks about a platform feature that differs by runtime, framework, or cloud provider, ask the single context question that changes the first resources.
 
-Do not ask about learning style or time budget unless the request is genuinely ambiguous.
+Do not ask when:
+- the topic is narrow and clear
+- the user gave enough background
+- a reasonable default exists and you can state it
+
+If you ask a clarification, still provide a provisional compass using the most common default when that is helpful.
 
 ## Research and Source Selection
 
-Use web search to verify that every resource is:
-- real
-- current
-- specific
-- relevant to the exact step it supports
+Use current source lookup to verify every resource is real, current, specific, and relevant. Use web search or a current documentation tool when available.
 
-Always link to the exact page, not a homepage or vague landing page.
+Always link to the exact page, section, repo, or document. Avoid homepages when a specific page exists.
 
 ## Source Ranking
 
-### Tier 1 — Canonical
-Always prefer these:
-- official documentation
-- official getting-started guides
-- official tutorials
-- official API and reference documentation
+### Tier 1 - Canonical
+Prefer these for the compass:
+- official conceptual documentation
+- official guides and learning pages
+- official reference pages only when they are the right thing to bookmark
+- official release notes when they clarify current stable behavior
+- official RFCs, design docs, or specifications when they explain the mental model
 
-### Tier 2 — Trusted expansion
-Use when they genuinely add value:
-- vendor architecture centers
-- vendor engineering blogs
+### Tier 2 - Trusted Expansion
+Use when official docs leave a conceptual gap:
 - maintainer-authored explainers
-- official training pages
+- maintainer docs
+- vendor architecture guides
+- official engineering blogs
+- framework-team talks or posts
 
-### Tier 3 — Hands-on examples
-Use to reinforce the core path:
+### Tier 3 - Inspection Targets
+Use only when they help the learner see structure:
 - official sample repositories
-- companion repositories explicitly linked from official docs or tutorials
+- maintainer-owned examples
+- companion repos linked from official docs
 
-### Tier 4 — Community
-Use only to fill a real gap:
-- reputable community articles with production credibility
-- respected conference talks
-- curated guides with clear technical depth
+Frame these as "inspect this for..." rather than "clone this and run...".
+
+### Tier 4 - Community
+Use only when it fills a real gap:
+- reputable deep dives
+- production writeups with clear authorship
+- well-maintained guides with technical depth
+
+If you include community content, explain why it earned a place.
 
 ## Source Rules
 
-- Prefer official docs over blog posts, always
-- Prefer official tutorials over third-party tutorials
-- Treat API reference as **lookup material**, not onboarding, unless it clearly belongs in the learning sequence
-- Use community content only when official material is weak, fragmented, or too reference-heavy
-- If you include community content, explain why it earned a place
-- Do not include homepage links when a more specific page exists
-- Do not include paid courses, certification prep, generic video lists, or generic "awesome-X" aggregators
+- Prefer official docs over blog posts.
+- Prefer concept pages over quickstarts for the first iteration.
+- Treat API references as bookmarks, not reading assignments, unless reference navigation is the skill being learned.
+- Treat tutorials and quickstarts as context to skim or practice later, not default core steps.
+- Exclude paid courses, certification prep, generic video lists, and generic "awesome-X" aggregators.
+- For fast-moving topics, prefer sources updated in the last 2-3 years unless older material is still canonical.
+- If official docs are monolithic, link to the relevant section anchor when possible.
+- If official docs are weak or fragmented, say so and bridge with the best maintainer or vendor-backed explanation.
 
-### When Official Docs Are Weak
+## Build the Compass
 
-Some technologies have official documentation that is fragmented, overly reference-heavy, or lags behind the implementation (e.g., Karate DSL's docs live in a single massive GitHub README; React Server Components docs lagged the feature by months).
+The default output has three layers:
+1. **Learning Compass** - 3-5 sequential iterations
+2. **Explore Later** - optional branches, not assignments
+3. **Supporting Notes** - checkpoints, avoid-for-now, next topics, navigator's note
 
-When this happens:
-- Lean harder on Tier 2 and Tier 3 sources — maintainer blog posts, official sample repos, and vendor architecture guides
-- In the resource description, explicitly note why a non-Tier-1 source was chosen (e.g., "Official docs for this feature are reference-only; this maintainer post provides the missing conceptual walkthrough")
-- Do not pretend weak official docs are good just because they are official — the learner's time matters more than source orthodoxy
-- If the official docs are a single monolithic page, link to the relevant section anchor if one exists
+### Iteration Counts
 
-## Freshness and Versioning Rules
+- Broad topic: 4-5 iterations
+- Narrow topic: 2-4 iterations
+- Time-boxed under 3 hours: 2-3 iterations
 
-For fast-moving topics:
-- prefer sources updated within the last 2–3 years
-- avoid pre-major-version tutorials unless they are still canonical
-- prefer versioned official docs when available
+Never pad with weak resources. If the best compass has fewer iterations, use fewer.
 
-If a commonly recommended source is outdated but historically important, exclude it unless it is still clearly valid.
+### Iteration Shape
 
-## Duplicate-Coverage Prevention
+Each iteration should build one layer of understanding.
 
-Each resource must have a distinct job.
+Use this structure:
+- **Focus**: the concept this iteration trains
+- **Read first**: one canonical page
+- **Check next**: zero to two supporting pages
+- **Inspect**: zero to one repo, example, spec, or real-world artifact to observe
+- **What to notice**: one concrete lens for reading
+- **Stop before**: one trap or premature rabbit hole
 
-Do not include two resources in the **core path** that substantially cover the same ground unless:
-- one is conceptual and the other is hands-on, or
-- one is the main path and the other is clearly marked as reference
+The first iteration should almost always be conceptual. Do not start with installation, setup, deployment, or a quickstart unless the technology can only be understood through that entry point.
 
-A resource that appears in the core path must not be repeated in exploration branches. Branches should only contain resources that are not already in the core path.
+### Resource Modes
 
-Avoid the common failure mode of producing a polished-looking but redundant path.
+Use these modes only:
+- `Read first` - primary material for the current iteration
+- `Read next` - supporting material after the primary page
+- `Skim for context` - orientation or quick shape, not deep study
+- `Inspect` - repo, sample, spec, or artifact to examine for structure
+- `Bookmark` - reference material for later lookup
+- `Practice later` - tutorial, lab, quickstart, or exercise reserved for explicit practice
 
-## Build the Path
-
-The output has three layers:
-1. **Core path**
-2. **Exploration branches**
-3. **Supporting sections**
-
-### Broad Topic Path Shape
-
-Use the 4-phase model when the topic is broad.
-
-#### Phase 1 — Mental Model
-1–3 resources. Explain what this technology is, why it exists, and what problem it solves.
-
-#### Phase 2 — Core Mechanics
-2–5 resources. The essential primitives, workflows, and concepts needed to start using it.
-
-#### Phase 3 — Applied Patterns
-1–4 resources. Production usage, team patterns, architecture, or realistic implementation guidance.
-
-#### Phase 4 — Go Deeper
-0–3 resources. Advanced concepts, internals, edge cases, performance, testing, or design tradeoffs.
-
-### Narrow Topic Path Shape
-
-For narrow topics, **compress or merge phases**. Never force all four phases.
-
-A narrow-topic path should usually look like:
-- **Orientation** — what this subtopic is and where it fits
-- **Core workflow or concept** — the main thing to understand
-- **Applied usage** — how it shows up in real work
-- **Reference or deep dive** — bookmark material for later
-
-If the narrow topic is very focused, 4–7 core resources is enough.
-
-### Time-Constrained Paths
-
-For time budgets under 3 hours:
-- Drop Phase 4 (Go Deeper) entirely
-- Mark most of Phase 3 as optional
-- Keep the core path to 4–6 resources
-- Reduce or skip exploration branches
-- The path should feel like a focused sprint, not a weekend curriculum
+Do not use `Practice later` in the main compass unless the user asked for hands-on work or the resource is clearly optional and separated from reading direction.
 
 ## Resource Contract
 
-### Core Path Resources
-
-Every resource in the core path must include:
-
-- **Source tier** — for example `[Official Docs]`, `[Vendor Blog]`, `[Official Sample Repo]`
-- **Mode** — one of:
-  - `Read now` — content the learner must internalize before the next step makes sense
-  - `Skim` — content that gives context or orientation but does not need line-by-line reading
-  - `Hands-on` — content the learner should work through actively (tutorials, labs, repos to clone)
-  - `Bookmark as reference` — content they will need later but not during the learning pass
+Every resource in the Learning Compass must include:
+- **Source tier**: e.g. `[Official Docs]`, `[Maintainer Explainer]`, `[Official Sample Repo]`
+- **Mode**: one of the modes above
 - **Exact title**
 - **Exact URL**
-- **Why it is here now** — one sentence stating both learning value and sequencing rationale
-- **Estimated effort**
-- **Optional marker** — append `⚡ Optional` after the effort estimate if the step is not essential to the core progression
+- **Why it is here now**: one sentence explaining value and sequencing
 
-This contract is mandatory for core path resources. Do not omit any of these fields.
+Do not include effort estimates by default. They make the compass feel like a syllabus. If the user gives a time budget, use pacing notes at the iteration level instead of per-resource estimates.
 
-### Branch Resources
+## Explore Later
 
-Branch resources are lighter. Include:
-- **Source tier**
-- **Mode**
-- **Title and URL**
-- **Why it is here now** — one sentence
-
-Effort estimates and optional markers are not needed for branches — branches are inherently optional.
-
-## Exploration Branches
-
-Add 1–3 branches, each with 1–3 resources.
+Add 0-3 optional branches, each with 1-3 resources.
 
 Good branch patterns:
-- **Hands-on practice** — labs, sample repos, runnable examples
-- **Architecture and team usage** — collaboration, production structure, platform patterns
-- **Deep internals** — source code, RFCs, design docs, internals
+- **Practice later** - tutorials, labs, exercises, or quickstarts only if useful after the reading path
+- **Architecture and production use** - deployment, operations, scaling, security, team workflows
+- **Deep internals** - RFCs, source code, design notes, protocol details
+- **Adjacent topics** - natural neighboring concepts
 
-Branches are optional and non-sequential.
+Branches are optional and non-sequential. Do not repeat a resource already used in the Learning Compass.
 
 ## Supporting Sections
 
-After the core path and branches, add these short sections:
-
 ### Checkpoints
-3–5 testable self-assessment statements, written as `I can...`
-
-Each checkpoint should map to a specific phase or step in the path.
+3-5 self-assessment statements written as `I can...`.
 
 Good:
-- I can explain when to create a Terraform module and when not to
-- I can deploy a Cloud Run service and describe the runtime lifecycle
+- I can explain why Terraform modules exist before designing one.
+- I can describe the Cloud Run service model without comparing it to a VM.
 
 Bad:
-- I understand Terraform better
+- I understand Terraform better.
+- I completed the tutorial.
 
 ### Avoid for Now
-2–4 traps to skip at this stage.
+2-4 traps to skip at this stage.
 
 ### Next Topics
-2–4 natural follow-on topics once this path is complete.
+2-4 natural follow-on topics.
 
 ### Why This Topic Is Tricky
-Add a short 1–2 sentence note near the top explaining the main learning cliff, ambiguity, or common confusion point for this topic.
+Add a short note near the top explaining the main learning cliff, ambiguity, or common confusion.
 
 Examples:
-- Rust: ownership and borrowing are the mental-model shift
-- Terraform: provider docs are useful, but not a learning path
-- Cloud Run: people often confuse it with Cloud Functions or GKE
+- Rust: ownership and borrowing are the mental-model shift.
+- Terraform: provider docs are useful, but not a learning path.
+- Cloud Run: people confuse the service model with Cloud Functions, GKE, or generic containers.
 
 ## Output Structure
 
 Use this structure:
 
 ```markdown
-## Learning Path: {Topic}
+## Mentorship Compass: {Topic}
 
 **Assumptions:**
 - Level: ...
 - Goal: ...
 - Time budget: ...
-- Style: ...
+- Context: ...
 
 **Why this topic is tricky:** ...
 
 ---
 
-### Core Path
+### Learning Compass
 
-#### {Phase or section name}
-- `[Source Tier]` `[Mode]` [Resource Title](URL) — {One sentence explaining value and why this appears here.} ⏱ {effort}
-- `[Source Tier]` `[Mode]` [Resource Title](URL) — {One sentence.} ⏱ {effort} ⚡ Optional
+#### Iteration 1 - {Focus}
+- **Read first:** `[Source Tier]` `[Mode]` [Resource Title](URL) - {Why it is here now.}
+- **Check next:** `[Source Tier]` `[Mode]` [Resource Title](URL) - {Why it is here now.}
+- **Inspect:** `[Source Tier]` `[Mode]` [Resource Title](URL) - {What to observe, not what to run.}
+- **What to notice:** ...
+- **Stop before:** ...
 
-#### {Next phase or section name}
+#### Iteration 2 - {Focus}
 - ...
 
 ---
 
-### Explore Further
+### Explore Later
 
-**{Branch Name}** — {Purpose}
-- `[Source Tier]` `[Mode]` [Resource Title](URL) — {One sentence.}
+**{Branch Name}** - {Purpose}
+- `[Source Tier]` `[Mode]` [Resource Title](URL) - {Why it belongs later.}
 
 ---
 
@@ -319,46 +278,46 @@ Use this structure:
 
 ---
 
-**Navigator's Note:** {2–4 sentences. Encourage exploration without turning the path into a rigid curriculum.}
+**Navigator's Note:** {2-4 sentences. Give direction without turning the path into a rigid curriculum.}
 ```
 
-For structured JSON output, see `references/schema.json` for the machine-readable contract. Use JSON output only when the user explicitly requests structured data or when the output feeds a downstream system. The default output is markdown.
+For structured JSON output, use `references/schema.json`. Use JSON only when the user explicitly requests structured data or when the output feeds a downstream system. The default output is markdown.
 
 ## Output Quality Rules
 
-- One sentence per resource description
-- Resource descriptions must explain both **value** and **placement**
-- Effort estimates must be realistic
-- Keep the core path tight
-- Broad topics usually land around 6–12 core resources
-- Narrow topics usually land around 4–7 core resources
-- Time-constrained paths (under 3 hours): 4–6 core resources
-- Do not force completeness at the expense of clarity
-- If official docs are weak, fragmented, or reference-heavy, bridge the gap with the best maintainer-authored or vendor-backed source and say why
-- If a section would be empty, omit it rather than padding it
+- The first resource should usually be official conceptual documentation.
+- Each iteration trains one layer of understanding.
+- Resource descriptions must explain both value and placement.
+- Keep the compass tight; fewer high-signal resources beat broad coverage.
+- Repos are for inspection unless hands-on practice is requested.
+- Use official docs first, but do not pretend weak official docs are enough.
+- If a section would be empty, omit it rather than padding it.
+- Prefer `Bookmark` for reference docs that the learner should know exist but not read linearly.
 
 ## Tone
 
 Peer-to-peer, direct, grounded, zero corporate filler.
 
-Write as a senior engineer recommending resources to a colleague:
-- confident
+Write like a senior engineer pointing a colleague toward the right reading:
+- concise
 - specific
-- practical
-- not academic
-- not verbose
+- opinionated
+- calm
+- practical without becoming procedural
 
 ## Anti-Patterns
 
+- starting with setup commands or installation
+- including `npx`, `npm install`, `git clone`, deploy commands, or shell steps by default
+- turning the answer into a tutorial or lab
+- saying "try this" or "build this" when the user asked where to learn
+- making GitHub repos mandatory execution steps
 - linking to homepages instead of exact pages
-- including resources just to fill a phase
-- overusing community sources when official docs are enough
+- treating API references like onboarding material
+- overusing community content when official docs are enough
 - ignoring version drift on fast-moving topics
 - recommending multiple resources that teach the same thing
-- treating reference docs like tutorials
 - asking unnecessary clarifying questions
-- forcing the 4-phase model on a narrow topic
-- producing a link dump with no sequencing rationale
-- making the path so rigid that exploration feels discouraged
-- repeating a core path resource in an exploration branch
-- defaulting every resource to `Read now` when `Skim` or `Bookmark as reference` would be more honest
+- forcing all broad topics into a rigid 4-phase syllabus
+- producing a link dump with no reading lens
+- repeating a compass resource in Explore Later

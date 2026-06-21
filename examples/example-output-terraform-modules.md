@@ -1,61 +1,72 @@
-## Learning Path: Terraform Modules
+## Mentorship Compass: Terraform Modules
 
 **Assumptions:**
-- **Level:** Intermediate infrastructure engineer with basic Terraform familiarity
-- **Goal:** Learn how modules fit into real Terraform usage and start structuring configurations well
-- **Time budget:** A focused day
-- **Style:** Official docs first, practical and architecture-aware
+- Level: Intermediate infrastructure engineer with basic Terraform familiarity
+- Goal: Understand where modules fit before designing reusable infrastructure abstractions
+- Time budget: A focused day
+- Context: No specific cloud provider or team module registry provided
 
-**Why this topic is tricky:** Terraform modules sound simple, but learners often jump straight into module design before they fully understand what problem modules solve. The trap is reading provider docs or advanced registry content as if they were the main learning path.
-
----
-
-### Core Path
-
-#### Orientation
-- `[Official Docs]` `[Read now]` [Terraform modules overview](https://developer.hashicorp.com/terraform/language/modules) — Start here because it explains what modules are, why they exist, and how they fit into normal Terraform configuration structure. ⏱ ~20–30 min
-
-#### Core Workflow
-- `[Official Docs]` `[Read now]` [Module block reference](https://developer.hashicorp.com/terraform/language/modules/syntax) — This is the core implementation page because it shows how modules are actually declared and consumed in real configurations. ⏱ ~20 min
-- `[Official Docs]` `[Read now]` [Develop modules](https://developer.hashicorp.com/terraform/language/modules/develop) — Read this once you know the syntax, because it translates the idea of modules into structure, inputs, outputs, and maintainable design. ⏱ ~30–40 min
-
-#### Applied Usage
-- `[Official Tutorial]` `[Hands-on]` [Terraform tutorials](https://developer.hashicorp.com/terraform/tutorials) — Choose a tutorial that includes module usage or reusable configuration patterns so the concept moves from documentation into working muscle memory. ⏱ ~45–60 min
-- `[Official Sample Repo]` `[Hands-on]` [hashicorp-education/learn-terraform-modules](https://github.com/hashicorp-education/learn-terraform-modules) — Use this after the docs to inspect a concrete example instead of inventing module structure from scratch. ⏱ ~30–45 min ⚡ Optional
-
-#### Reference and Deeper Use
-- `[Official Reference]` `[Bookmark as reference]` [Module registry](https://registry.terraform.io/) — This is useful later for discovery and consumption, but it is reference material, not the first place to learn module design. ⏱ ~10 min
-- `[Official Docs]` `[Bookmark as reference]` [Terraform style conventions](https://developer.hashicorp.com/terraform/language/style) — Keep this as a second-pass aid when you start caring about consistency and maintainability across teams. ⏱ ~15 min ⚡ Optional
+**Why this topic is tricky:** Terraform modules sound like a simple reuse mechanism, but learners often jump into abstraction before understanding what problem modules solve. Provider docs and registry browsing are useful later, but they are not the learning path.
 
 ---
 
-### Explore Further
+### Learning Compass
 
-**Team conventions** — Move from "I can use a module" to "I can design one others can maintain"
-- `[Community Guide]` `[Read now]` [Terraform Best Practices: Module structure](https://www.terraform-best-practices.com/key-concepts) — Practitioner-authored conventions for naming, nesting, and composing modules in team environments; fills a gap that the official docs leave open.
+#### Iteration 1 - What Modules Are For
+- **Read first:** `[Official Docs]` `[Read first]` [Terraform modules overview](https://developer.hashicorp.com/terraform/language/modules) - Start here because it explains what a module is and why Terraform treats every configuration as a module.
+- **Check next:** `[Official Docs]` `[Skim for context]` [Terraform configuration language](https://developer.hashicorp.com/terraform/language) - Skim this to place modules inside the larger language model of blocks, arguments, expressions, and files.
+- **What to notice:** A module is a boundary for configuration structure and reuse, not automatically a mark of better design.
+- **Stop before:** Do not browse the public registry yet; it will pull you toward consumption before understanding design.
 
-**Testing and validation** — Gain confidence that your modules work before sharing them
-- `[Official Docs]` `[Bookmark as reference]` [Terraform test framework](https://developer.hashicorp.com/terraform/language/tests) — Native testing was added in Terraform 1.6; if you’re writing modules for others, this is now expected practice.
+#### Iteration 2 - Calling a Module
+- **Read first:** `[Official Docs]` `[Read first]` [Module block reference](https://developer.hashicorp.com/terraform/language/modules/syntax) - Read this to understand how a calling module points to a child module and passes inputs.
+- **Check next:** `[Official Docs]` `[Read next]` [Module sources](https://developer.hashicorp.com/terraform/language/modules/sources) - This explains how local paths, registries, and versioned sources change module consumption.
+- **What to notice:** The `source` decision is also a lifecycle decision: local structure, versioning, publishing, and trust all enter here.
+- **Stop before:** Do not design a shared module API until you understand how callers consume it.
+
+#### Iteration 3 - Designing a Module Shape
+- **Read first:** `[Official Docs]` `[Read first]` [Develop modules](https://developer.hashicorp.com/terraform/language/modules/develop) - Read this once syntax is clear because it shifts from using modules to designing them.
+- **Check next:** `[Official Docs]` `[Bookmark]` [Terraform style conventions](https://developer.hashicorp.com/terraform/language/style) - Bookmark this for naming and layout questions that matter once more than one person reads the module.
+- **Inspect:** `[Official Sample Repo]` `[Inspect]` [hashicorp-education/learn-terraform-modules](https://github.com/hashicorp-education/learn-terraform-modules) - Inspect the folder boundaries and variable/output names to see how HashiCorp teaches module shape.
+- **What to notice:** A reusable module is mostly an interface design problem: inputs, outputs, naming, and hidden assumptions.
+- **Stop before:** Do not abstract tiny one-off configurations just because modules exist.
+
+#### Iteration 4 - Registry and Testing as Later Concerns
+- **Read first:** `[Official Reference]` `[Bookmark]` [Terraform Registry](https://registry.terraform.io/) - Bookmark the registry as discovery material, not as your first teacher for module design.
+- **Check next:** `[Official Docs]` `[Bookmark]` [Terraform test framework](https://developer.hashicorp.com/terraform/language/tests) - Save this for when you publish or share modules and need confidence beyond local usage.
+- **What to notice:** Registry consumption, versioning, and testing matter after you understand the module boundary.
+- **Stop before:** Do not optimize for publishing before you can explain the module's caller-facing contract.
+
+---
+
+### Explore Later
+
+**Team conventions** - Move from "I understand modules" to "others can maintain this module."
+- `[Community Guide]` `[Skim for context]` [Terraform Best Practices: Key concepts](https://www.terraform-best-practices.com/key-concepts) - Use this as a practitioner lens on naming and structure after official module concepts are clear.
+
+**Practice later** - Useful after the design vocabulary is in place.
+- `[Official Tutorial]` `[Practice later]` [Reuse configuration with modules](https://developer.hashicorp.com/terraform/tutorials/modules/module) - Save this for turning the reading path into a concrete pass through module usage.
 
 ---
 
 ### Checkpoints
-- [ ] I can explain what problem modules solve in Terraform and when they are worth introducing.
-- [ ] I can write a module block and wire variables and outputs correctly.
-- [ ] I can distinguish learning material from registry reference material.
-- [ ] I can spot when a configuration should stay simple instead of being abstracted too early.
+- [ ] I can explain what problem modules solve and when they are unnecessary.
+- [ ] I can describe the relationship between root modules, child modules, sources, inputs, and outputs.
+- [ ] I can inspect a module and identify its public interface.
+- [ ] I can tell when registry browsing is reference work rather than learning work.
 
 ### Avoid for Now
-- Do not start by browsing registry modules without understanding module structure.
-- Do not over-abstract tiny configurations just because modules exist.
-- Do not confuse provider documentation with module-design guidance.
+- Do not start by copying public registry modules.
+- Do not over-abstract small configurations.
+- Do not confuse provider documentation with module design guidance.
+- Do not publish modules before understanding caller expectations.
 
 ### Next Topics
-- Terraform state management
-- Module versioning and team conventions
-- Testing and validating Terraform modules
-- Provider-specific patterns for your main cloud platform
+- Module versioning
+- Terraform testing
+- Team module registries
+- Provider-specific module patterns
 
 ---
 
-**Navigator's Note:** Modules pay off when they reduce repetition and improve structure, not when they become abstraction for abstraction's sake. Get the concept clear, build one small module, then let real reuse pressure tell you how far to take the pattern.
+**Navigator's Note:** Learn modules by looking at boundaries, not by chasing examples. First understand what a module hides, what it exposes, and how callers consume it. Once that clicks, tutorials and registry examples become easier to evaluate instead of imitate.
